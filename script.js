@@ -1,15 +1,19 @@
-function baz() {
-    // debugger;
-    console.log("baz");
-    bar();
+function foo(something) {
+    console.log(this.a, something);
+    return this.a + something;
 }
 
-function bar() {
-    console.log("bar");
-    foo();
+function bind(fn, obj) {
+    return function() {
+        return fn.apply(obj, arguments);
+    };
 }
 
-function foo() {
-    console.log("foo");
-}
-baz();
+var obj = {
+    a: 2
+};
+
+var bar = bind(foo, obj);
+
+var b = bar(3);
+console.log(b);
