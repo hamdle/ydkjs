@@ -1,19 +1,21 @@
-function foo(something) {
-    console.log(this.a, something);
-    return this.a + something;
+function Foo(who) {
+    this.me = who;
 }
-
-function bind(fn, obj) {
-    return function() {
-        return fn.apply(obj, arguments);
-    };
-}
-
-var obj = {
-    a: 2
+Foo.prototype.identify = function() {
+    return "I am " + this.me;
 };
 
-var bar = bind(foo, obj);
+function Bar(who) {
+    Foo.call(this, who);
+}
+Bar.prototype = Object.create(Foo.prototype);
 
-var b = bar(3);
-console.log(b);
+Bar.prototype.speak = function() {
+    alert("Hello, " + this.identify());
+};
+
+var b1 = new Bar( "b1" );
+var b2 = new Bar( "b2" );
+
+//b1.speak();
+//b2.speak();
